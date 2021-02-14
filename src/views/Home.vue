@@ -13,7 +13,9 @@
         <label for="">Plot: </label><input type="text" v-model="newMoviePlot" />
       </div>
       <button v-on:click="createMovie">Create</button>
-      <p class="errors">{{ errors.join(", ") }}</p>
+      <div class="errors" v-for="error in errors" :key="error">
+        <p>{{ error }}</p>
+      </div>
     </div>
     <hr />
     <h1>All Movies</h1>
@@ -34,7 +36,6 @@ h2 {
   text-align: center;
 }
 label {
-  display: inline-block;
   width: 50px;
 }
 .home {
@@ -59,6 +60,10 @@ label {
 
 <script>
 import axios from "axios";
+var jwt = localStorage.getItem("jwt");
+if (jwt) {
+  axios.defaults.headers.common["Authorization"] = "Bearer " + jwt;
+}
 
 export default {
   data: function() {
@@ -72,7 +77,7 @@ export default {
     };
   },
   created: function() {
-    axios.get("/api/movies").then((response) => {
+    axios.get("/api/movies").then(response => {
       console.log(response.data);
       this.movies = response.data;
     });
@@ -84,21 +89,22 @@ export default {
         year: this.newMovieYear,
         plot: this.newMoviePlot,
       };
-      var options = {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MTMwMDIyMzV9.OJ1_WJUoeVhMkqOkPeElxde0BuC_MNfC3LsLiyik7dg",
-        },
-      };
       axios
-        .post("/api/movies", params, options)
-        .then((response) => {
+        .post("/api/movies", params)
+        .then(response => {
           // console.log(response.data);
           this.movies.unshift(response.data);
         })
-        .catch((error) => {
-          console.log(error.response.data.errors);
-          this.errors = error.response.data.errors;
+        .catch(error => {
+          console.log(error.response);
+          if (error.response.status === 401) {
+            this.errors = [
+              "You must be logged in as an admin to create a movie.",
+            ];
+          } else {
+            console.log(error.response.data.errors);
+            this.errors = error.response.data.errors;
+          }
         });
     },
   },
