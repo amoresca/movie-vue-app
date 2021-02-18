@@ -2,7 +2,7 @@
   <div class="movies-index container">
     <!-- Wait for genres to be loaded -->
     <div v-if="movie.genres">
-      <div class="top-buttons">
+      <div class="top-buttons" v-if="this.$parent.isLoggedIn()">
         <router-link :to="`/movies/${movie.id}/edit`"
           ><button class="edit-movie">Edit Movie</button></router-link
         >

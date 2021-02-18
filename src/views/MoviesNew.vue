@@ -31,7 +31,16 @@
       </div>
       <div class="form-group">
         <label>Plot:</label>
-        <input type="text" class="form-control" v-model="plot" />
+        <textarea
+          cols="30"
+          rows="10"
+          class="form-control"
+          v-model="plot"
+          maxlength="750"
+        ></textarea>
+        <small v-bind:class="{ 'text-danger': plot.length === 750 }">
+          {{ plot.length }}/750 characters</small
+        >
       </div>
       <button>Create</button>
     </form>
@@ -42,6 +51,9 @@
 label {
   display: inline-block;
   width: 80px;
+}
+.text-danger {
+  color: red;
 }
 </style>
 

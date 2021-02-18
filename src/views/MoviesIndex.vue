@@ -1,12 +1,32 @@
 <template>
   <div class="movies-index container">
     <div class="top-buttons">
-      <router-link to="/movies/new"
+      <router-link v-if="this.$parent.isLoggedIn()" to="/movies/new"
         ><button class="new-movie">New Movie</button></router-link
       >
     </div>
-    <h1>Movies</h1>
-    <div class="movie" v-for="movie in movies" v-bind:key="movie.title">
+    <div class="text-center">
+      <h1>Movies</h1>
+      Search by title: <input v-model="titleFilter" list="titles" />
+      <datalist id="titles">
+        <option v-for="movie in movies" v-bind:key="movie.id">{{
+          movie.title
+        }}</option>
+      </datalist>
+      | Sort By:
+      <select v-model="orderAttribute">
+        <option value="title">Title</option>
+        <option value="year">Year</option>
+      </select>
+    </div>
+    <div
+      class="movie"
+      v-for="movie in orderBy(
+        filterBy(movies, titleFilter, 'title'),
+        orderAttribute
+      )"
+      v-bind:key="movie.title"
+    >
       <router-link :to="`/movies/${movie.id}`"
         ><h3>{{ movie.title }}</h3></router-link
       >
@@ -33,11 +53,15 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from "vue2-filters";
 
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
       movies: [],
+      titleFilter: "",
+      orderAttribute: "title",
     };
   },
   created: function() {
