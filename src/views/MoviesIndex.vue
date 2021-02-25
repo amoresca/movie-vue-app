@@ -7,14 +7,15 @@
     </div>
     <div class="text-center">
       <h1>Movies</h1>
-      Search by title: <input v-model="titleFilter" list="titles" />
+      <label for="search">Search by title:</label>
+      <input v-model="titleFilter" id="search" list="titles" />
       <datalist id="titles">
         <option v-for="movie in movies" v-bind:key="movie.id">{{
           movie.title
         }}</option>
       </datalist>
-      | Sort By:
-      <select v-model="orderAttribute">
+      | <label for="filter">Sort By: </label>
+      <select id="filter" v-model="orderAttribute">
         <option value="title">Title</option>
         <option value="year">Year</option>
       </select>

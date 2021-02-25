@@ -9,29 +9,50 @@
     </ul>
     <form v-on:submit.prevent="editMovie()">
       <div class="form-group">
-        <label>Title:</label>
-        <input type="text" class="form-control" v-model="movie.title" />
+        <label for="title">Title:</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          v-model="movie.title"
+        />
       </div>
       <div class="form-group">
-        <label>Year:</label>
-        <input type="text" class="form-control" v-model="movie.year" />
+        <label for="year">Year:</label>
+        <input
+          type="text"
+          id="year"
+          class="form-control"
+          v-model="movie.year"
+        />
       </div>
       <div class="form-group">
-        <label>Director:</label>
-        <input type="text" class="form-control" v-model="movie.director" />
+        <label for="director">Director:</label>
+        <input
+          type="text"
+          id="director"
+          class="form-control"
+          v-model="movie.director"
+        />
       </div>
       <div class="form-group">
-        <label>English?:</label>
+        <label for="english">English?:</label>
         <input
           type="checkbox"
+          id="english"
           v-model="movie.english"
           true-value="true"
           false-value="false"
         />
       </div>
       <div class="form-group">
-        <label>Plot:</label>
-        <input type="text" class="form-control" v-model="movie.plot" />
+        <label for="plot">Plot:</label>
+        <input
+          type="text"
+          id="plot"
+          class="form-control"
+          v-model="movie.plot"
+        />
       </div>
       <button>Update</button>
     </form>

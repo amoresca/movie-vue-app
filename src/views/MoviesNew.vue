@@ -9,31 +9,46 @@
     </ul>
     <form v-on:submit.prevent="createMovie()">
       <div class="form-group">
-        <label>Title:</label>
-        <input type="text" class="form-control" v-model="title" />
+        <label for="title">Title:</label>
+        <input type="text" id="title" class="form-control" v-model="title" />
       </div>
       <div class="form-group">
-        <label>Year:</label>
-        <input type="text" class="form-control" v-model="year" />
+        <label for="year">Year:</label>
+        <input type="text" id="year" class="form-control" v-model="year" />
       </div>
       <div class="form-group">
-        <label>Director:</label>
-        <input type="text" class="form-control" v-model="director" />
+        <label for="director">Director:</label>
+        <input
+          type="text"
+          id="director"
+          class="form-control"
+          v-model="director"
+        />
       </div>
       <div class="form-group">
-        <label>English?:</label>
+        <label for="genre">Genre:</label>
+        <select id="genre" class="form-control" v-model="genre">
+          <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{
+            genre.name
+          }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="english">English?:</label>
         <input
           type="checkbox"
+          id="english"
           v-model="english"
           true-value="true"
           false-value="false"
         />
       </div>
       <div class="form-group">
-        <label>Plot:</label>
+        <label for="plot">Plot:</label>
         <textarea
           cols="30"
           rows="10"
+          id="plot"
           class="form-control"
           v-model="plot"
           maxlength="750"
@@ -66,18 +81,25 @@ export default {
       title: "",
       year: "",
       director: "",
+      genres: [],
+      genre: "",
       english: "",
       plot: "",
       errors: [],
     };
   },
-  created: function() {},
+  created: function() {
+    axios.get("/api/genres").then(response => {
+      this.genres = response.data;
+    });
+  },
   methods: {
     createMovie: function() {
       var params = {
         title: this.title,
         year: this.year,
         plot: this.plot,
+        genre_id: this.genre,
       };
       axios
         .post("/api/movies", params)
