@@ -1,14 +1,38 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/movies">Movies</router-link> |
-      <span v-if="!isLoggedIn()"
-        ><router-link to="/signup">Signup</router-link> |
-        <router-link to="/login">Login</router-link>
-      </span>
-      <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
-    </div>
+    <nav
+      class="navbar navbar-expand-lg navbar-light"
+      style="background-color:#f4c618;"
+    >
+      <router-link to="/" class="navbar-brand">VueMDB</router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link">Movies</router-link>
+          </li>
+          <li v-if="!isLoggedIn()" class="nav-item">
+            <router-link to="/signup" class="nav-link">Signup</router-link>
+          </li>
+          <li v-if="!isLoggedIn()" class="nav-item">
+            <router-link to="/login" class="nav-link">Login</router-link>
+          </li>
+          <li v-if="isLoggedIn()" class="nav-item">
+            <router-link to="/logout" class="nav-link">Logout</router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <router-view />
   </div>
 </template>
@@ -24,44 +48,8 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-  text-align: center;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-h1,
-h2 {
-  text-align: center;
-}
-
 a {
   color: #3f51b5;
-}
-
-label {
-  display: inline-block;
-}
-
-.container {
-  max-width: 1024px;
-  margin: 0 auto;
-  position: relative;
 }
 
 .top-buttons {
@@ -69,30 +57,8 @@ label {
   margin-right: 1em;
 }
 
-.top-buttons button {
-  color: white;
-  border: 0;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.new-movie,
-.edit-movie {
-  background-color: #42b983;
-}
-
-.delete-movie {
-  background-color: #bf261b;
-  margin-left: 5px;
-}
-
-.errors {
-  color: red;
-}
-
-.text-center {
-  text-align: center;
+.btn-success {
+  background-color: #4caf50;
+  border-color: #4caf50;
 }
 </style>

@@ -1,21 +1,23 @@
 <template>
-  <div class="movies-index container">
+  <div class="movies-index container mt-5">
     <!-- Wait for genres to be loaded -->
     <div v-if="movie.genres">
       <div class="top-buttons" v-if="this.$parent.isLoggedIn()">
         <router-link :to="`/movies/${movie.id}/edit`"
-          ><button class="edit-movie">Edit Movie</button></router-link
+          ><button class="btn btn-success">Edit Movie</button></router-link
         >
-        <button class="delete-movie" v-on:click="destroyMovie()">
+        <button class="btn btn-danger ml-3" v-on:click="destroyMovie()">
           Delete Movie
         </button>
       </div>
-      <ul>
-        <li class="text-danger" v-for="error in errors" v-bind:key="error">
+      <ul v-if="errors.length > 0" class="alert alert-danger">
+        <li v-for="error in errors" v-bind:key="error">
           {{ error }}
         </li>
       </ul>
+
       <h1>{{ movie.title }}</h1>
+      <img :src="movie.image_url" :alt="movie.title" />
       <p>Year: {{ movie.year }}</p>
       <p v-if="movie.genres.length > 0">
         Genres: {{ movie.genres.join(", ") }}

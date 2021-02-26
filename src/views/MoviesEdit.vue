@@ -1,9 +1,9 @@
 <template>
-  <div class="movies-edit container">
+  <div class="movies-edit container mt-5">
     <h1>Edit Movie</h1>
 
-    <ul>
-      <li class="text-danger" v-for="error in errors" v-bind:key="error">
+    <ul v-if="errors.length > 0" class="alert alert-danger">
+      <li v-for="error in errors" v-bind:key="error">
         {{ error }}
       </li>
     </ul>
@@ -36,6 +36,15 @@
         />
       </div>
       <div class="form-group">
+        <label for="image-url">Image URL:</label>
+        <input
+          type="text"
+          id="image-url"
+          class="form-control"
+          v-model="movie.image_url"
+        />
+      </div>
+      <div class="form-group">
         <label for="english">English?:</label>
         <input
           type="checkbox"
@@ -54,7 +63,7 @@
           v-model="movie.plot"
         />
       </div>
-      <button>Update</button>
+      <button class="btn btn-success mt-2">Update</button>
     </form>
   </div>
 </template>
@@ -78,7 +87,6 @@ export default {
   },
   created: function() {
     axios.get(`/api/movies/${this.$route.params.id}`).then(response => {
-      // console.log(response.data);
       this.movie = response.data;
     });
   },
@@ -90,6 +98,7 @@ export default {
         director: this.movie.director,
         english: this.movie.english,
         plot: this.movie.plot,
+        image_url: this.movie.image_url,
       };
       axios
         .patch(`/api/movies/${this.movie.id}`, params)
